@@ -96,6 +96,10 @@ do_start()
     # Verify that the selenium grid port is not already in use, winstone does not exit
     # even for BindException
     check_tcp_port "http" "$HTTP_PORT" "$SELENIUM_PORT" || return 1
+
+    #lockdown local
+    iptables -A INPUT -p tcp --dport 4444 -s 127.0.0.1 -j ACCEPT
+    iptables -A INPUT -p tcp --dport 4444 -j DROP    
     
     # If the var MAXOPENFILES is enabled in /etc/default/selenium then set the max open files to the 
     # proper value
@@ -161,6 +165,11 @@ do_stop()
 	    force_stop || return 3
 	    ;;
     esac
+
+
+    #unlock ports
+    iptables -D INPUT -p tcp --dport 4444 -s 127.0.0.1 -j ACCEPT
+    iptables -D INPUT -p tcp --dport 4444 -j DROP  
 
     # Many daemons don't delete their pidfiles when they exit.
     rm -f $PIDFILE
