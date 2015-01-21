@@ -19,7 +19,8 @@ SELENIUM_USER=selenium
 SELENIUM_HOME=/var/lib/selenium
 
 # log location.  
-SELENIUM_LOG=/var/log/selenium/$NAME.log
+#SELENIUM_LOG=/var/log/selenium/$NAME.log
+SELENIUM_LOG=/dev/null
 
 SELENIUM_PORT=5555
 
