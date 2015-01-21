@@ -99,7 +99,7 @@ do_start()
 
     #lockdown local
     iptables -A INPUT -p tcp --dport 4444 -s 127.0.0.1 -j ACCEPT
-    iptables -A INPUT -p tcp --dport 4444 -j DROP    
+    iptables -A INPUT -p tcp --dport 4444 -j REJECT
     
     # If the var MAXOPENFILES is enabled in /etc/default/selenium then set the max open files to the 
     # proper value
@@ -169,7 +169,7 @@ do_stop()
 
     #unlock ports
     iptables -D INPUT -p tcp --dport 4444 -s 127.0.0.1 -j ACCEPT
-    iptables -D INPUT -p tcp --dport 4444 -j DROP  
+    iptables -D INPUT -p tcp --dport 4444 -j REJECT  
 
     # Many daemons don't delete their pidfiles when they exit.
     rm -f $PIDFILE
